@@ -3,12 +3,108 @@ import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 import styles from '../styles/Home.module.css'
+import React, { useEffect, useState } from 'react'
 
-function test() {
-  var message_text = document.getElementById('message_text');
+function postMessages() {
+
+  const message_text = document.getElementById('message_text');
+
+  if(message_text.value == "") {
+    console.log("돌아가!");
+    return;
+  }
+
+  const reqBody = {
+    msgtext: message_text.value,
+    publisher: '이름'
+  }
+
+  fetch('http://localhost:3000/api/db', {
+    method: 'POST',
+    body: JSON.stringify(reqBody),
+    headers: {
+      'Content-Type' : 'application/json',
+    },
+  })
+  .then(res => res.json)
+  .then(data => console.log(data));
+  
+  document.getElementById('message_text').value = "";
+  
+  location.reload();
 }
 
-const Home: NextPage = () => {
+function getRandomColor() {
+  var rand = Math.floor(Math.random()*7);
+  if(rand == 0) return styles.red;
+  else if(rand==1) return styles.orange;
+  else if(rand==2) return styles.yellow;
+  else if(rand==3) return styles.green;
+  else if(rand==4) return styles.cyan;
+  else if(rand==5) return styles.blue;
+  else if(rand==6) return styles.magenta;
+}
+
+function nameSet() {
+  document.getElementById('nameSetDiv')?.classList.add('active');
+}
+
+export async function getStaticProps() {
+
+  const res = await fetch('http://localhost:3000/api/db')
+  const result = await res.json()
+
+  if(!result) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      }
+    }
+  }
+
+  return {
+    props: {
+      result,
+      //msgView,
+    },
+
+    revalidate: 10,
+  }
+}
+
+function Home({ result }) {
+
+  console.log(result);
+  interface msg {msgid: number, msgtext: string, publisher: string, timedate: string};
+  var msgList:msg[] = [];
+
+  var idx = 1;
+  result.forEach(function (value) {
+    const nextMsg: msg = {
+      msgid: idx,
+      msgtext: value.msgtext,
+      publisher : value.publisher,
+      timedate : value.timedate,
+    }
+    msgList.push(nextMsg);
+
+    idx++;
+  })
+
+  const msgView = msgList.map(msg =>
+    <div key={msg.msgid}>
+      <img src={'/'+(Math.floor(Math.random()*9)+1)+'.png'} className={styles.heart}></img>
+      <div>
+        <div>
+          <h2>{msg.publisher}</h2>
+          <a>{msg.timedate.substr(0, 5)}</a>
+        </div>
+        <a>{msg.msgtext}</a>
+      </div>
+    </div>
+  );
+
   return (
     <div className={styles.container}>
       <Head>
@@ -18,15 +114,25 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <div className={styles.top_bar}>
-          
+        <div className={styles.chat}>
+          <a></a>
+          {msgView}
         </div>
-        <h1>hello world</h1>
+        <div className={styles.top_bar}>
+          <Link href = "/">
+            <img src="/left-arrow.png"></img>
+          </Link>
+          <img src="/chaeeee.png"></img>
+          <p>채연아 태어나줘서 고마워~</p>
+        </div>
         <div className={styles.bottom_bar}>
-          <img src='/setting.png' className={styles.setting}></img>
+          <div id="nameSetDiv" className={styles.nameSetDiv}>
+            <textarea placeholder='이름 입력..' id='name_textarea'></textarea>
+          </div>
+          <img src='/setting.png' className={styles.setting} onclick={nameSet}></img>
           <div>
             <textarea placeholder='메시지 입력..' className={styles.textArea} id='message_text'></textarea>
-            <img src="/send.png" onClick={test}></img>
+            <img src="/send.png" onClick={postMessages}></img>
           </div>
         </div>
       </main>
