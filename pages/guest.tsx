@@ -6,24 +6,6 @@ import styles from '../styles/Home.module.css'
 
 function test() {
   var message_text = document.getElementById('message_text');
-  fetch('/api/messages', {
-    method: 'POST',
-    headers: {'content-type' : 'application/json'},
-    body:JSON.stringify({
-      username:'fetch', text:message_text.value
-    })
-  })
-  .then(
-    function(response) {
-      console.log('status', response.status);
-      return response.json()
-    }
-  )
-  .then(
-    function(result) {
-      console.log(result)
-    }
-  )
 }
 
 const Home: NextPage = () => {
