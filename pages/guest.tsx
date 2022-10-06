@@ -5,17 +5,19 @@ import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 import React, { useEffect, useState } from 'react'
 
+var name = ""
+
 function postMessages() {
 
-  const message_text = document.getElementById('message_text');
+  const message_text = document.querySelector<HTMLTextAreaElement>('#message_text')!.value;
 
-  if(message_text.value == "") {
+  if(message_text == "") {
     console.log("돌아가!");
     return;
   }
 
   const reqBody = {
-    msgtext: message_text.value,
+    msgtext: message_text,
     publisher: '이름'
   }
 
@@ -29,7 +31,7 @@ function postMessages() {
   .then(res => res.json)
   .then(data => console.log(data));
   
-  document.getElementById('message_text').value = "";
+  document.querySelector<HTMLTextAreaElement>('#message_text')!.value = "";
   
   location.reload();
 }
@@ -66,21 +68,21 @@ export async function getStaticProps() {
   return {
     props: {
       result,
-      //msgView,
     },
 
     revalidate: 10,
   }
 }
 
-function Home({ result }) {
+interface msg {msgid: number, msgtext: string, publisher: string, timedate: string};
 
-  console.log(result);
-  interface msg {msgid: number, msgtext: string, publisher: string, timedate: string};
+function Home( result: msg[] ) {
+
+  console.log(result);  
   var msgList:msg[] = [];
 
   var idx = 1;
-  result.forEach(function (value) {
+  result.forEach(function (value: any) {
     const nextMsg: msg = {
       msgid: idx,
       msgtext: value.msgtext,
@@ -94,7 +96,7 @@ function Home({ result }) {
 
   const msgView = msgList.map(msg =>
     <div key={msg.msgid}>
-      <img src={'/'+(Math.floor(Math.random()*9)+1)+'.png'} className={styles.heart}></img>
+      <Image src={'/'+(Math.floor(Math.random()*9)+1)+'.png'} className={styles.heart}></Image>
       <div>
         <div>
           <h2>{msg.publisher}</h2>
@@ -120,19 +122,19 @@ function Home({ result }) {
         </div>
         <div className={styles.top_bar}>
           <Link href = "/">
-            <img src="/left-arrow.png"></img>
+            <Image src="/left-arrow.png"></Image>
           </Link>
-          <img src="/chaeeee.png"></img>
+          <Image src="/chaeeee.png"></Image>
           <p>채연아 태어나줘서 고마워~</p>
         </div>
         <div className={styles.bottom_bar}>
           <div id="nameSetDiv" className={styles.nameSetDiv}>
             <textarea placeholder='이름 입력..' id='name_textarea'></textarea>
           </div>
-          <img src='/setting.png' className={styles.setting} onclick={nameSet}></img>
+          <Image src='/setting.png' className={styles.setting} onClick={nameSet}></Image>
           <div>
             <textarea placeholder='메시지 입력..' className={styles.textArea} id='message_text'></textarea>
-            <img src="/send.png" onClick={postMessages}></img>
+            <Image src="/send.png" onClick={postMessages}></Image>
           </div>
         </div>
       </main>
