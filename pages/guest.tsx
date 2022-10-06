@@ -75,14 +75,22 @@ export async function getStaticProps() {
 }
 
 interface msg {msgid: number, msgtext: string, publisher: string, timedate: string};
+type resType = {
+  result: [{
+    msgid: number,
+    msgtext: string,
+    publisher: string,
+    timedate: string,
+  }],
+}
 
-function Home( result: msg[] ) {
+function Home({result}:resType) {
 
-  console.log(result);  
   var msgList:msg[] = [];
-
+  console.log(result);
   var idx = 1;
-  result.forEach(function (value: any) {
+
+  Array.from(result).forEach(function (value: any) {
     const nextMsg: msg = {
       msgid: idx,
       msgtext: value.msgtext,
@@ -92,11 +100,11 @@ function Home( result: msg[] ) {
     msgList.push(nextMsg);
 
     idx++;
-  })
+  }) 
 
   const msgView = msgList.map(msg =>
     <div key={msg.msgid}>
-      <Image src={'/'+(Math.floor(Math.random()*9)+1)+'.png'} className={styles.heart}></Image>
+      <img src={'/'+(Math.floor(Math.random()*9)+1)+'.png'} className={styles.heart}></img>
       <div>
         <div>
           <h2>{msg.publisher}</h2>
@@ -122,19 +130,19 @@ function Home( result: msg[] ) {
         </div>
         <div className={styles.top_bar}>
           <Link href = "/">
-            <Image src="/left-arrow.png"></Image>
+            <img src="/left-arrow.png"></img>
           </Link>
-          <Image src="/chaeeee.png"></Image>
+          <img src="/chaeeee.png"></img>
           <p>채연아 태어나줘서 고마워~</p>
         </div>
         <div className={styles.bottom_bar}>
           <div id="nameSetDiv" className={styles.nameSetDiv}>
             <textarea placeholder='이름 입력..' id='name_textarea'></textarea>
           </div>
-          <Image src='/setting.png' className={styles.setting} onClick={nameSet}></Image>
+          <img src='/setting.png' className={styles.setting} onClick={nameSet}></img>
           <div>
             <textarea placeholder='메시지 입력..' className={styles.textArea} id='message_text'></textarea>
-            <Image src="/send.png" onClick={postMessages}></Image>
+            <img src="/send.png" onClick={postMessages}></img>
           </div>
         </div>
       </main>

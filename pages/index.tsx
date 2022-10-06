@@ -18,7 +18,7 @@ const Home: NextPage = () => {
           <a className={styles.h1}>이채연님<br/>생신이시다.<br/>한 말씀 올려드리자.</a>
 
           <div className={styles.like_cnt}>
-            <Image src='heart.png'></Image>
+            <img src='heart.png'></img>
             <h2>2843</h2>
           </div>
           
@@ -30,7 +30,7 @@ const Home: NextPage = () => {
             </Link>
             <a></a>
             <div className={styles.like}>
-              <Image src='heart.png'></Image>
+              <img src='heart.png'></img>
             </div>
           </div>
         </div>
