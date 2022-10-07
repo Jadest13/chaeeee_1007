@@ -70,7 +70,7 @@ function selectImageBut() {
 
 export async function getStaticProps() {
 
-  const res = await fetch('http://localhost:3000/api/db')
+  const res = await fetch('https://chaeeee1007.vercel.app/api/db')
   const result = await res.json()
 
   if(!result) {
