@@ -4,10 +4,12 @@ import Image from 'next/image'
 import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 import React, { useEffect, useState } from 'react'
+import { waitForDebugger } from 'inspector'
+import { StyledBadgePoints } from '@nextui-org/react'
 
 var imageNum = Math.floor(Math.random()*9)+1
 
-function postMessages() {
+async function postMessages() {
 
   const message_text = document.querySelector<HTMLTextAreaElement>('#message_text')!.value;
   const name_text = document.querySelector<HTMLTextAreaElement>('#name_text')!.value;
@@ -29,18 +31,17 @@ function postMessages() {
   }
 
   console.log(reqBody)
-
-  fetch('https://chaeeee1007.vercel.app/api/db', {
+  document.querySelector<HTMLTextAreaElement>('#message_text')!.value = "";
+  
+  const res = await fetch('http://10.21.1.67:3001/api/db', {
     method: 'POST',
-    body: JSON.stringify(reqBody),
     headers: {
       'Content-Type' : 'application/json',
     },
+    body: JSON.stringify(reqBody),
   })
   .then(res => res.json)
   .then(data => console.log(data));
-  
-  document.querySelector<HTMLTextAreaElement>('#message_text')!.value = "";
   
   location.reload();
 }
@@ -70,7 +71,7 @@ function selectImageBut() {
 
 export async function getStaticProps() {
 
-  const res = await fetch('https://chaeeee1007.vercel.app/api/db')
+  const res = await fetch('http://10.21.1.67:3001/api/db')
   const result = await res.json()
 
   if(!result) {
