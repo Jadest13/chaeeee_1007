@@ -28,6 +28,84 @@
   flex-grow: 1;
 }
 
+.intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.intro > img {
+  margin-top: 25%;
+  width: 10rem;
+}
+
+.intro h1 {
+  font-family: BMJUA;
+  font-weight: 100;
+  font-size: 4rem;
+  margin-bottom: 15rem;
+}
+
+.intro > div {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin: 4rem 0;
+}
+
+.intro > div.left {
+  flex-direction: row;
+}
+
+.intro > div.right {
+  flex-direction: row-reverse;
+  text-align: end;
+}
+
+.intro div > img {
+  width: 9rem;
+  border-radius: 10rem;
+  border: 0.25rem solid black;
+}
+
+.intro > div > div {
+  margin: 2rem;
+  flex-grow: 1;
+}
+
+.intro div > div > h1 {
+  margin: 0;
+  font-family: BMJUA;
+  font-weight: 100;
+  font-size: 3.5rem;
+}
+
+.intro div > div > h2 {
+  margin: 0;
+  font-family: BMJUA;
+  font-weight: 100;
+  font-size: 2rem;
+}
+
+.intro div.sns {
+  margin: 20rem 0 10rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.intro div.sns > div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 0;
+}
+
+.intro div.sns > div > img {
+  width: 2rem;
+  height: 2rem;
+  border: none;
+}
+
 .guestbook {
   width: 100%;
   padding: 1rem;
@@ -166,6 +244,7 @@
 }
 
 .chat > div {
+  width: 95%;
   align-self: flex-start;
   display: flex;
   align-items: center;
@@ -209,6 +288,7 @@
 }
 
 .chat > div > div {
+  width: 90%;
   border: none;
   padding: 0 0.5rem;
   border-radius: 3rem;
@@ -238,6 +318,8 @@
 }
 
 .chat > div > div a {
+  white-space: normal;
+  word-break: normal;
   font-size: 1.5rem;
   font-family: Inter;
   font-weight: 400;

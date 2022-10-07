@@ -14,12 +14,51 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
+        <div className={styles.intro}>
+          <img src='cake.png'></img>
+          <h1>축하 이채연 생일!!</h1>
+          <div className={styles.left}>
+            <img src='6.png'></img>
+            <div>
+              <h1>이채연님은</h1>
+              <h2> 서기 2003년 10월 7일에 태어나셨습니다!</h2>
+            </div>
+          </div>
+          <div className={styles.right}>
+            <img src='8.png'></img>
+            <div>
+              <h1>2022년에</h1>
+              <h2>숭실대학교 글로벌미디어학부에 입학해주셨습니다</h2>
+            </div>
+          </div>
+          <div className={styles.left}>
+            <img src='9.png'></img>
+            <div>
+              <h1>4.38? 37?</h1>
+              <h2>맨날 술마시며 노는데도 높은 학점을 자랑합니다</h2>
+            </div>
+          </div>
+          <div className={styles.right}>
+            <img src='5.png'></img>
+            <div>
+              <h1>정수리도</h1>
+              <h2>귀여운 우리 채연이 생일축하해주세요!!!</h2>
+            </div>
+          </div>
+          <div className={styles.sns}>
+            <img src='1.png'></img>
+            <div>
+              <img src='instagram.png'></img>
+              <h3>@chaeeee_1007</h3>
+            </div>
+          </div>
+        </div>
         <div className={styles.guestbook}>
           <a className={styles.h1}>이채연님<br/>생신이시다.<br/>한 말씀 올려드리자.</a>
 
           <div className={styles.like_cnt}>
             <img src='heart.png'></img>
-            <h2>2843</h2>
+            <h2 id="likeCnt">2843</h2>
           </div>
           
           <div className={styles.button}>
@@ -30,7 +69,11 @@ const Home: NextPage = () => {
             </Link>
             <a></a>
             <div className={styles.like}>
-              <img src='heart.png'></img>
+              <img src='heart.png' onClick={() => {
+              var cnt: string = document.querySelector<HTMLTextAreaElement>("#likeCnt")!.innerText;
+              document.querySelector<HTMLTextAreaElement>("#likeCnt")!.innerText = ''+(parseInt(cnt) + 1);
+              console.log(cnt);
+            }}></img>
             </div>
           </div>
         </div>

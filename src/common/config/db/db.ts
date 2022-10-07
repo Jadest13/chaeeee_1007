@@ -4,7 +4,7 @@ let db;
 
 try {
   db = mysql.createConnection({
-    host: '127.0.0.1',
+    host: '10.21.1.67',
     user : 'testuser',
     password: '1234',
     database: 'TESTDB',

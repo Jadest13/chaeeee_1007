@@ -30,7 +30,7 @@ function postMessages() {
 
   console.log(reqBody)
 
-  fetch('http://localhost:3000/api/db', {
+  fetch('https://chaeeee1007.vercel.app/api/db', {
     method: 'POST',
     body: JSON.stringify(reqBody),
     headers: {
