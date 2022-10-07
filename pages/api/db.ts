@@ -6,8 +6,9 @@ db.connect();
 export default function test(req : NextApiRequest, res : NextApiResponse) {
 
   if(req.method === 'POST') {
-    const { msgtext, publisher } = req.body;
-    db.query("INSERT INTO Messages VALUES (0, '" + msgtext + "', '" + publisher + "', NOW())",
+    console.log('POST');
+    const { msgtext, publisher, image } = req.body;
+    db.query("INSERT INTO Messages VALUES (0, '" + msgtext + "', '" + publisher + "', '" + image + "', NOW())",
     function (err: any, result: any) {
       if(err) {
         console.log(err)

@@ -126,6 +126,23 @@
   font-size: 1.5rem;
 }
 
+.top_bar a {
+  flex-grow: 1;
+}
+
+.top_bar > textarea {
+  margin-right: 1rem;
+  width: auto;
+  height: 2rem;
+  font-size: 1.2rem;
+  flex-grow: 1;
+  text-align: end;
+  border: none;
+  resize: none;
+  font-family: Inter;
+  font-weight: 400;
+}
+
 .chat {
   bottom: 0rem;
   padding: 2rem 0 3rem;
@@ -228,34 +245,20 @@
 }
 
 .bottom_bar {
-  position: fixed;
-  background-color: white; 
   left: 0;
   right: 0;
   bottom: 0;
+  position: fixed;
+}
+
+.bottom_bar > div {
+  background-color: white; 
   height: auto;
   display: flex;
   padding: 1rem;
 }
 
-.bottom_bar .nameSetDiv {
-  position: fixed;
-  margin-top: -10rem;
-  height: auto;
-}
-
-.bottom_bar .nameSetDiv > textarea {
-  margin-right: 0.5rem;
-  height: 2rem;
-  font-size: 1.2rem;
-  flex-grow: 1;
-  border: none;
-  resize: none;
-  font-family: Inter;
-  font-weight: 400;
-}
-
-.bottom_bar .setting {
+.bottom_bar > div .setting {
   background-color: white;
   display: flex;
   align-items: center;
@@ -266,7 +269,39 @@
   border: 0.2rem solid lightgray;
 }
 
-.bottom_bar div {
+.bottom_bar > div .setting.active {
+  background-color: lightblue;
+}
+
+.bottom_bar .selectImage {
+  display: none;
+  border: 0.15rem solid white;
+  border-radius: 3rem;
+  overflow-x: scroll;
+  -ms-overflow-style: none;
+}
+
+.bottom_bar .selectImage.active {
+  display: flex;
+  animation-duration: 1s;
+}
+
+.bottom_bar .selectImage::-webkit-scrollbar {
+  display:none;
+}
+
+.bottom_bar .selectImage img {
+  width: 4rem;
+  height: 4rem;
+  margin: 0 0.75rem;
+  border-radius: 3rem;
+}
+
+.bottom_bar .selectImage img.selected {
+  border: 0.25rem solid black;
+}
+
+.bottom_bar > div div {
   background-color: white;
   display: flex;
   flex-grow: 1;
@@ -277,7 +312,7 @@
   border: 0.2rem solid lightgray;
 }
 
-.bottom_bar div .textArea {
+.bottom_bar > div div .textArea {
   margin-right: 0.5rem;
   height: 2rem;
   font-size: 1.2rem;
@@ -288,7 +323,7 @@
   font-weight: 400;
 }
 
-.bottom_bar div img {
+.bottom_bar > div div img {
   background-color: white;
   border-radius: 0.5rem;
   width: 1.5rem;

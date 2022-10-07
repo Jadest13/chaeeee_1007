@@ -5,21 +5,30 @@ import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 import React, { useEffect, useState } from 'react'
 
-var name = ""
+var imageNum = Math.floor(Math.random()*9)+1
 
 function postMessages() {
 
   const message_text = document.querySelector<HTMLTextAreaElement>('#message_text')!.value;
+  const name_text = document.querySelector<HTMLTextAreaElement>('#name_text')!.value;
+
+  if(name_text == "") {
+    alert("이름을 입력해주세요.");
+    return;
+  }
 
   if(message_text == "") {
-    console.log("돌아가!");
+    alert("메시지를 입력해주세요.");
     return;
   }
 
   const reqBody = {
     msgtext: message_text,
-    publisher: '이름'
+    publisher: name_text,
+    image: '/'+imageNum+'.png'
   }
+
+  console.log(reqBody)
 
   fetch('http://localhost:3000/api/db', {
     method: 'POST',
@@ -47,8 +56,16 @@ function getRandomColor() {
   else if(rand==6) return styles.magenta;
 }
 
-function nameSet() {
-  document.getElementById('nameSetDiv')?.classList.add('active');
+function selectImageBut() {
+  console.log(document.querySelector('#settingBut')!.classList);
+  if(!document.querySelector('#settingBut')!.classList.contains(styles.active)) {
+    document.querySelector('#Image'+imageNum)!.classList.add(styles.selected);
+    document.querySelector('#settingBut')!.classList.add(styles.active);
+    document.querySelector('#selectImageDiv')!.classList.add(styles.active);
+  } else {
+    document.querySelector('#settingBut')!.classList.remove(styles.active);
+    document.querySelector('#selectImageDiv')!.classList.remove(styles.active);
+  }
 }
 
 export async function getStaticProps() {
@@ -74,12 +91,13 @@ export async function getStaticProps() {
   }
 }
 
-interface msg {msgid: number, msgtext: string, publisher: string, timedate: string};
+interface msg {msgid: number, msgtext: string, publisher: string, image: string, timedate: string};
 type resType = {
   result: [{
     msgid: number,
     msgtext: string,
     publisher: string,
+    image: string,
     timedate: string,
   }],
 }
@@ -95,6 +113,7 @@ function Home({result}:resType) {
       msgid: idx,
       msgtext: value.msgtext,
       publisher : value.publisher,
+      image : value.image,
       timedate : value.timedate,
     }
     msgList.push(nextMsg);
@@ -104,7 +123,7 @@ function Home({result}:resType) {
 
   const msgView = msgList.map(msg =>
     <div key={msg.msgid}>
-      <img src={'/'+(Math.floor(Math.random()*9)+1)+'.png'} className={styles.heart}></img>
+      <img src={msg.image} className={styles.heart}></img>
       <div>
         <div>
           <h2>{msg.publisher}</h2>
@@ -113,6 +132,25 @@ function Home({result}:resType) {
         <a>{msg.msgtext}</a>
       </div>
     </div>
+  );
+  
+  let arr = new Array
+  for(var i = 1; i <= 9; i++) {
+    arr.push(i);
+  }
+
+  const imageList = arr.map(i => 
+    <img key={i} src={'/' + i + '.png'} id={'Image'+i} className={styles.imageElement} onClick={() =>{
+      for(var j = 1; j <= 9; j++) {
+        if(document.querySelector('#Image'+j)!.classList.contains(styles.selected)) {
+          document.querySelector('#Image'+j)!.classList.remove(styles.selected);
+        }
+        if(j == i) {
+          document.querySelector('#Image'+j)!.classList.add(styles.selected);
+          imageNum = j;
+        }
+      }
+    }}></img>
   );
 
   return (
@@ -134,15 +172,19 @@ function Home({result}:resType) {
           </Link>
           <img src="/chaeeee.png"></img>
           <p>채연아 태어나줘서 고마워~</p>
+          <a></a>
+          <textarea placeholder='이름' id="name_text"></textarea>
         </div>
         <div className={styles.bottom_bar}>
-          <div id="nameSetDiv" className={styles.nameSetDiv}>
-            <textarea placeholder='이름 입력..' id='name_textarea'></textarea>
+          <div className={styles.selectImage} id='selectImageDiv'>
+            {imageList}
           </div>
-          <img src='/setting.png' className={styles.setting} onClick={nameSet}></img>
           <div>
-            <textarea placeholder='메시지 입력..' className={styles.textArea} id='message_text'></textarea>
-            <img src="/send.png" onClick={postMessages}></img>
+            <img id='settingBut' src='/setting.png' className={styles.setting} onClick={selectImageBut}></img>
+            <div>
+              <textarea placeholder='메시지 입력..' className={styles.textArea} id='message_text'></textarea>
+              <img src="/send.png" onClick={postMessages}></img>
+            </div>
           </div>
         </div>
       </main>
@@ -150,4 +192,4 @@ function Home({result}:resType) {
   )
 }
 
-export default Home
+export default React.memo(Home)
